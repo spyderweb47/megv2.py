@@ -6,7 +6,7 @@ import subprocess
 import threading
 import argparse
 import math
-from termcolor import colored
+# from termcolor import colored
 
 # with open("host.txt","r+") as hosts:
 # 	for line in hosts:
@@ -47,9 +47,9 @@ def meg_modified(wordlist,starto,endo):
 			for line in wordlist:
 				host = line.strip()                           
 				subprocess.call('''cat '''+filename+'''|grep -i '''+host+'''| cut -d '/' -f 1,2,3 --complement|awk '{print "/"$0}' |tee path.txt''',shell=True,stdout=DNULL,stderr=DNULL)
-				print(colored(f"[+] started meg on {host}","yellow"))  
+				print(f"[+] started meg on {host}","yellow")
 				subprocess.call('''meg -c 2000 -d 500 path.txt '''+host+''' meg_out ''',shell=True,stdout=True,stderr=True)
-				print(colored(f"[-] scan completed on {host}","green"))
+				print(f"[-] scan completed on {host}","green")
 				start_line +=1
 				if(start_line==end_line):      # Traverse until the specified end_line
 					break
@@ -67,7 +67,7 @@ else:
     no_of_threads=3
 
 subprocess.call('''cat '''+filename+'''| awk -F "/" '{print $1"/"$2"/"$3}'|sort -u | tee host.txt''',shell=True,stdout=DNULL,stderr=DNULL)
-print(colored(f"[+] File Read Succesfull [{filename}]","blue"))
+print(f"[+] File Read Succesfull [{filename}]")
 
 total_words = num_of_lines("host.txt")
 each_thread_words = math.ceil(total_words/no_of_threads)         
